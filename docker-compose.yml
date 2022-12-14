@@ -10,6 +10,17 @@ services:
     volumes:
     - ./mysql_db:/var/lib/mysql
 
+  postgres: 
+    image: postgres
+    environment:
+      - POSTGRES_DB=api
+      - POSTGRES_USER=facu
+      - POSTGRES_PASSWORD=admin1234
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres_db:/var/lib/postgresql/data
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:

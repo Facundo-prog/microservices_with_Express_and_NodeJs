@@ -18,7 +18,7 @@ routerApi.use("/posts", postRouter);
 app.use(errorMiddleware);
 
 app.get("/", (req, res) => {
-    res.send("Hola")    
+    res.send("API REST con node")    
 })
 
 app.listen(config.port, () => {

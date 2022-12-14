@@ -13,6 +13,6 @@ apiRouter.use("/", storeRouter);
 
 app.use(errorMiddleware);
 
-app.listen(config.mysqlServicePort, () => {
-    console.log("DB listen in " + config.host + ":" + config.mysqlServicePort);
+app.listen(config.dbServicePort, () => {
+    console.log("DB listen in " + config.host + ":" + config.dbServicePort);
 });
