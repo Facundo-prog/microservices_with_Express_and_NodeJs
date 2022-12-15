@@ -1,4 +1,4 @@
-const db = require("../../../store/remote-mysql");
+const db = require("../../../store/remote-postgres");
 
 const TABLE = "posts";
 

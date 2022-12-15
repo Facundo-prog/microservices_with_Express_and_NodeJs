@@ -2,10 +2,11 @@
   "name": "5.autenticacion-microservicios-redis",
   "version": "1.0.0",
   "description": "",
-  "main": "api/index.js",
+  "main": "api/srv_api.js",
   "scripts": {
-    "start": "node api/index.js",
-    "dev": "nodemon api/index.js"
+    "start": "node api/api.js",
+    "api": "nodemon api/api.js",
+    "db": "nodemon db/db.js"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +16,6 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^8.5.1",
-    "mysql": "^2.18.1",
     "node-fetch": "^2.6.7",
     "nodemon": "^2.0.20",
     "pg": "^8.8.0",

@@ -1,6 +1,6 @@
 const jwt = require("../../../cryptography/jwt");
 const crypto = require("../../../cryptography/crypto");
-const db = require("../../../store/remote-mysql");
+const db = require("../../../store/remote-postgres");
 
 const TABLE = "auths";
 
