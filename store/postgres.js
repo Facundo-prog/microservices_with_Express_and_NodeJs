@@ -19,51 +19,84 @@ function getItem(table, id = null){
         if(id !== null) query += ` WHERE id = ${id}` ;
 
         pool.query(query, (err, data) => {
-            if(err) reject(err);
-            resolve(data);
+            if(err) return reject(err);
+            resolve(data.rows);
         });   
     });
 }
 
 function createItem(table, data){
     return new Promise((resolve, reject) => {
-        const query = `INSERT INTO ${table} SET ?`;
-        pool.query(query, [data], (err, data) => {
-            if(err) reject(err);
-            resolve(data);
-        });   
+        let queryColumns = "";
+        let queryValues = "";
+
+        data.columns.forEach((element, index) => {
+            queryColumns += element;
+            queryValues += `'${data.values[index]}'`;
+
+            if(index !== data.columns.length - 1){
+                queryColumns += ", ";
+                queryValues += ", ";
+            }
+        })
+
+        const query = `INSERT INTO ${table}(${queryColumns}) VALUES(${queryValues})`
+
+        pool.query(query, (err, data) => {
+            if(err) return reject(err);
+            resolve(data.rows);
+        });
     });
 }
 
 function updateItem(table, id, data){
     return new Promise((resolve, reject) => {
-        let query = `UPDATE ${table} SET ? WHERE id = ?`;
+        let query = `UPDATE ${table} SET `;
 
-        pool.query(query, [data, id], (err, data) => {
-            if(err) reject(err);
-            resolve(data);
-        });   
+        data.columns.forEach((element, index) => {
+            query += `${element} = '${data.values[index]}'`
+
+            if(index !== data.columns.length - 1){
+                query += ", ";
+            }
+        })
+
+        query += " WHERE id = $1";
+
+        pool.query(query, [id], (err, data) => {
+            if(err) return reject(err);
+            resolve(data.rows);
+        });
     });
 }
 
 function deleteItem(table, id){
     return new Promise((resolve, reject) => {
-        let query = `DELETE FROM ${table} WHERE id = ?`;
+        let query = `DELETE FROM ${table} WHERE id = $1`;
 
-        pool.query(query, id, (err, data) => {
-            if(err) reject(err);
-            resolve(data);
+        pool.query(query, [id], (err, data) => {
+            if(err) return reject(err);
+            resolve(data.rows);
         });   
     });
 }
 
 function query(table, query){
     return new Promise((resolve, reject) => {
-        let fullQuery = `SELECT * FROM ${table} WHERE ?`;
-        pool.query(fullQuery, query, (err, data) => {
-            if(err) reject(err);
-            resolve(data);
-        });   
+        let fullQuery = `SELECT * FROM ${table} WHERE `;
+
+        query.columns.forEach((element, index) => {
+            fullQuery += `${element} = '${query.values[index]}'`
+
+            if(index !== query.columns.length - 1){
+                fullQuery += " && ";
+            }
+        })
+
+        pool.query(fullQuery, (err, data) => {
+            if(err) return reject(err);
+            resolve(data.rows);
+        })
     });
 }
 

@@ -1,11 +1,11 @@
 const jwt = require("../cryptography/jwt");
 const response = require("../network/response");
-const db = require("../store/remote-mysql");
+const db = require("../store/remote-postgres");
 
 module.exports = async function checkUser(req, res, next){
     const token = req.headers.authorization;
     const result = jwt.verifyToken(String(token).substring(7));
-    
+
     if(!result){
         response.error(req, res, null, 401);
         return;
@@ -15,7 +15,11 @@ module.exports = async function checkUser(req, res, next){
         const userAuth = await db.get("auths", result.id).catch((e) => { return response.error(req, res) })
         if(Object.keys(userAuth.body).length <= 0) return response.error(req, res, null, 401)
         
-        const user = await db.query("users", { username: userAuth.body[0].username }).catch((e) => { return response.error(req, res) })
+        const query = {
+            columns: ["username"],
+            values: [userAuth.body[0].username]
+        }
+        const user = await db.query("users", query).catch((e) => { return response.error(req, res) })
         if(Object.keys(user.body).length <= 0) return response.error(req, res, null, 401)
         
         req.user = {

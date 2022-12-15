@@ -9,7 +9,7 @@ router.get("/", list);
 router.get("/:id", checkUser, get);
 router.get("/:id/following", checkUser, following);
 router.patch("/", checkUser, update);
-router.post("/", checkUser, create);
+router.post("/", create);
 router.post("/follow/:id", checkUser, follow);
 router.delete("/",checkUser, remove);
 

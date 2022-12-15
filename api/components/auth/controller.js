@@ -10,13 +10,16 @@ async function login(data){
     if(!data.username || !data.password) return Promise.reject(error);
     let user;
 
-    await db.query(TABLE, { username: data.username }).then((result) => {
-        user = result.body[0];
-    }).catch((e) => {
+    const query = {
+        columns: ["username"],
+        values: [data.username]
+    }
+    const result = await db.query(TABLE, query).catch((e) => {
         return Promise.reject(e);
     });
 
-    if(!user) return Promise.reject(error);
+    if(Object.keys(result.body).length <= 0) return Promise.reject(error);
+    user = result.body[0];
 
     const password = await crypto.verifyPassword(data.password, user.password);
     if(!password) return Promise.reject(error);
@@ -29,7 +32,10 @@ async function create(username, password){
     if(!username || !password) return Promise.reject(error);
 
     const passwordHash = await crypto.passwordHash(password);
-    const data = { username: username, password: passwordHash };
+    const data = { 
+        columns: ["username", "password"],
+        values: [username, passwordHash]
+    };
 
     return db.create(TABLE, data);
 }
