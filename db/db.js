@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 const apiRouter = express.Router();
-app.use("/api/v1", apiRouter);
+app.use("/microservices-db/v1", apiRouter);
 apiRouter.use("/", storeRouter);
 
 app.use(errorMiddleware);

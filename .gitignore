@@ -1,3 +1,4 @@
-/node_modules
-/mysql_db
-/postgres_db
+.env
+node_modules
+mysql_db
+postgres_db

@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 
 const routerApi = express.Router();
-app.use("/api/v1", routerApi);
+app.use("/microservices-api/v1", routerApi);
 routerApi.use("/users", userRouter);
 routerApi.use("/auth", authRouter);
 routerApi.use("/posts", postRouter);

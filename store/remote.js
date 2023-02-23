@@ -25,7 +25,7 @@ function createRemoteDB(host, port){
 
 
     async function req(method, table, id = null, data = null){
-        let url = `${URL}/api/v1/${table}`;
+        let url = `${URL}/microservices-db/v1/${table}`;
         let args = {
             method,
             body: null,
