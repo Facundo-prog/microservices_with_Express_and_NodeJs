@@ -2,7 +2,7 @@
   "name": "5.autenticacion-microservicios-redis",
   "version": "1.0.0",
   "description": "",
-  "main": "api/srv_api.js",
+  "main": "api/api.js",
   "scripts": {
     "start": "node api/api.js",
     "api": "nodemon api/api.js",
